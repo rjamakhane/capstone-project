@@ -1,11 +1,14 @@
 package com.example.productservice.modals;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Rating {
+@Entity
+public class Rating extends BaseModal{
     private int rate;
     private int count;
     public Rating() {

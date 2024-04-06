@@ -1,5 +1,6 @@
 package com.example.productservice.dtos;
 
+import com.example.productservice.modals.Category;
 import lombok.Getter;
 import lombok.Setter;
 
