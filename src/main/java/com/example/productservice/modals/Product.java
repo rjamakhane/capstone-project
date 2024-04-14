@@ -1,5 +1,6 @@
 package com.example.productservice.modals;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -13,7 +14,8 @@ public class Product extends BaseModal {
     private String title;
     private String description;
     private double price;
-    @ManyToOne
+//    @ManyToOne(cascade = {CascadeType.ALL}) //all operation like create update delete
+    @ManyToOne(cascade = {CascadeType.PERSIST}) //only create operation
     private Category category;
     private String image;
 
