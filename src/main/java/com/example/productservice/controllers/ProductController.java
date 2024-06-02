@@ -16,7 +16,7 @@ import java.util.List;
 public class ProductController {
     private ProductService productService;
 
-    ProductController(@Qualifier("selfProductService") ProductService productService) {
+    ProductController(@Qualifier("fakeStoreProductService") ProductService productService) {
         this.productService = productService;
     }
 
@@ -28,7 +28,8 @@ public class ProductController {
 
     @GetMapping("/")
     public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+        List<Product> products = productService.getAllProducts();
+        return new ResponseEntity<>(new ArrayList<Product>(products), HttpStatus.OK).getBody();
     }
 
     @PatchMapping("/{id}")

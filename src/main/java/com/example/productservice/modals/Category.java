@@ -14,7 +14,8 @@ import java.util.List;
 @Setter
 @Entity(name="Category")
 public class Category extends BaseModal {
-    @OneToMany(mappedBy = "category", cascade = {CascadeType.REMOVE})
-    List<Product> products;
+//    @OneToMany(mappedBy = "category", cascade = {CascadeType.REMOVE})
+//    List<Product> products;
     private String title;
 }
+

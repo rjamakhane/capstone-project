@@ -4,6 +4,8 @@ import com.example.productservice.dtos.FakeStoreProductDTO;
 import com.example.productservice.exceptions.InvalidProductIdException;
 import com.example.productservice.modals.Category;
 import com.example.productservice.modals.Product;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpMessageConverterExtractor;
@@ -14,19 +16,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service("fakeStoreProductService")
+@Primary
 public class FakeStoreProductService implements ProductService{
     private RestTemplate restTemplate;
+    private RedisTemplate redisTemplate;
 
-    FakeStoreProductService(RestTemplate restTemplate) {
+    FakeStoreProductService(RestTemplate restTemplate, RedisTemplate redisTemplate) {
         this.restTemplate = restTemplate;
+        this.redisTemplate = redisTemplate;
     }
     @Override
     public Product getProductById(Long id) throws InvalidProductIdException {
+        // first check in the cache if product exist
+        Product product = (Product) redisTemplate.opsForHash().get("PRODUCT", "PRODUCT_" + id);
+        if(product != null){
+            // if found in cache return it
+            return product;
+        }
         FakeStoreProductDTO fakeStoreProductDTO = restTemplate.getForObject("https://fakestoreapi.com/products/" + id, FakeStoreProductDTO.class);
         if (fakeStoreProductDTO == null) {
             throw new InvalidProductIdException("Invalid Product Id");
         }
-        return convertFakeStoreProductDTOtoProduct(fakeStoreProductDTO);
+        product = convertFakeStoreProductDTOtoProduct(fakeStoreProductDTO);
+        redisTemplate.opsForHash().put("PRODUCT", "PRODUCT_" + id, product);
+        return product;
     }
 
     public Product convertFakeStoreProductDTOtoProduct(FakeStoreProductDTO fakeStoreProductDTO) {

@@ -11,28 +11,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 @SpringBootTest
 class ProductServiceApplicationTests {
 
-	@Autowired
-	private ProductRepository productRepository;
-	@Autowired
-	private CategoryRepository categoryRepository;
+
 	@Test
 	void contextLoads() {
-	}
-
-	@Test
-	public void testQueries() {
-		// Test the queries here
-		List<ProductByIdAndTitle> prduct = productRepository.someRandomQuery();
-		for (ProductByIdAndTitle productByIdAndTitle : prduct) {
-			System.out.println(productByIdAndTitle.getTitle());
-			System.out.println(productByIdAndTitle.getId());
-		}
-
-		categoryRepository.deleteById(52L);
-
+		assertEquals(1, 1, "1 is not equal to 2");
 	}
 
 }

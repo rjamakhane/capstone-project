@@ -7,10 +7,12 @@ import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @Entity(name="Product")
-public class Product extends BaseModal {
+public class Product extends BaseModal implements Serializable {
     private String title;
     private String description;
     private double price;
@@ -24,4 +26,5 @@ public class Product extends BaseModal {
 
     public Product() {
     }
+
 }
