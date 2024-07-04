@@ -72,7 +72,7 @@ public class FakeStoreProductService implements ProductService{
 
     public FakeStoreProductDTO convertProductToFakeStoreProductDTO(Product product) {
         FakeStoreProductDTO fakeStoreProductDTO = new FakeStoreProductDTO();
-        fakeStoreProductDTO.setId(product.getId());
+//        fakeStoreProductDTO.setId(product.getId());
         fakeStoreProductDTO.setTitle(product.getTitle());
         fakeStoreProductDTO.setPrice(product.getPrice());
         fakeStoreProductDTO.setDescription(product.getDescription());
@@ -90,7 +90,9 @@ public class FakeStoreProductService implements ProductService{
 
     @Override
     public Product updateProduct(Long id, Product product) {
-        return null;
+        FakeStoreProductDTO fakeStoreProductDTORequest = convertProductToFakeStoreProductDTO(product);
+        FakeStoreProductDTO fakeStoreProductDTO = restTemplate.patchForObject("https://fakestoreapi.com/products/" + id, fakeStoreProductDTORequest, FakeStoreProductDTO.class);
+        return fakeStoreProductDTO != null ? convertFakeStoreProductDTOtoProduct(fakeStoreProductDTO) : null;
     }
 
     @Override
