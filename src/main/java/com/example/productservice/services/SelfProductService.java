@@ -70,7 +70,7 @@ public class SelfProductService implements ProductService{
     }
 
     @Override
-    public void deleteProduct(Long id) {
-
+    public Product deleteProduct(Long id) {
+        return null;
     }
 }

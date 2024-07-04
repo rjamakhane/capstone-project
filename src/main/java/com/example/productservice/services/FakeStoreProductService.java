@@ -104,7 +104,8 @@ public class FakeStoreProductService implements ProductService{
     }
 
     @Override
-    public void deleteProduct(Long id) {
-
+    public Product deleteProduct(Long id) {
+        FakeStoreProductDTO fakeStoreProductDTO = restTemplate.exchange("https://fakestoreapi.com/products/" + id, HttpMethod.DELETE, null, FakeStoreProductDTO.class).getBody();
+        return fakeStoreProductDTO != null ? convertFakeStoreProductDTOtoProduct(fakeStoreProductDTO) : null;
     }
 }

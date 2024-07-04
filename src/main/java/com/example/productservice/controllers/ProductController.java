@@ -45,15 +45,12 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product createProduct(@RequestBody FakeStoreProductDTO fakeStoreProductDTO){
-        Product product = new Product();
-        product.setPrice(fakeStoreProductDTO.getPrice());
-        product.setTitle(fakeStoreProductDTO.getTitle());
-        Category category = new Category();
-        product.setImage(fakeStoreProductDTO.getImage());
-        category.setTitle(fakeStoreProductDTO.getCategory());
-        product.setCategory(category);
+    public Product createProduct(@RequestBody Product product){
         return productService.createProduct(product);
-//        return null;
+    }
+
+    @DeleteMapping("/{id}")
+    public Product deleteProduct(@PathVariable("id") Long id){
+        return productService.deleteProduct(id);
     }
 }
