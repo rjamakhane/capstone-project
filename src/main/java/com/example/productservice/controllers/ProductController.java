@@ -1,6 +1,8 @@
 package com.example.productservice.controllers;
 
+import com.example.productservice.dtos.FakeStoreProductDTO;
 import com.example.productservice.exceptions.InvalidProductIdException;
+import com.example.productservice.modals.Category;
 import com.example.productservice.modals.Product;
 import com.example.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -43,7 +45,15 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product createProduct(@RequestBody Product product){
+    public Product createProduct(@RequestBody FakeStoreProductDTO fakeStoreProductDTO){
+        Product product = new Product();
+        product.setPrice(fakeStoreProductDTO.getPrice());
+        product.setTitle(fakeStoreProductDTO.getTitle());
+        Category category = new Category();
+        product.setImage(fakeStoreProductDTO.getImage());
+        category.setTitle(fakeStoreProductDTO.getCategory());
+        product.setCategory(category);
         return productService.createProduct(product);
+//        return null;
     }
 }

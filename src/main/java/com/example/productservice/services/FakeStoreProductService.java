@@ -51,7 +51,7 @@ public class FakeStoreProductService implements ProductService{
         Category category = new Category();
         category.setTitle(fakeStoreProductDTO.getCategory());
 
-//        product.setCategory(category);
+        product.setCategory(category);
         product.setDescription(fakeStoreProductDTO.getDescription());
         product.setImage(fakeStoreProductDTO.getImage());
         return product;
@@ -64,16 +64,28 @@ public class FakeStoreProductService implements ProductService{
             List<Product> products = new ArrayList<>();
             for (FakeStoreProductDTO productDTO : fakeStoreProductDTO) {
                 products.add(convertFakeStoreProductDTOtoProduct(productDTO));
-
             }
             return products;
         }
         return new ArrayList<Product>();
     }
 
+    public FakeStoreProductDTO convertProductToFakeStoreProductDTO(Product product) {
+        FakeStoreProductDTO fakeStoreProductDTO = new FakeStoreProductDTO();
+        fakeStoreProductDTO.setId(product.getId());
+        fakeStoreProductDTO.setTitle(product.getTitle());
+        fakeStoreProductDTO.setPrice(product.getPrice());
+        fakeStoreProductDTO.setDescription(product.getDescription());
+        fakeStoreProductDTO.setImage(product.getImage());
+        fakeStoreProductDTO.setCategory(product.getCategory().getTitle());
+        return fakeStoreProductDTO;
+    }
+
     @Override
     public Product createProduct(Product product) {
-        return null;
+        FakeStoreProductDTO fakeStoreProductDTORequest = convertProductToFakeStoreProductDTO(product);
+        FakeStoreProductDTO fakeStoreProductDTO = restTemplate.postForObject("https://fakestoreapi.com/products", fakeStoreProductDTORequest, FakeStoreProductDTO.class);
+        return fakeStoreProductDTO != null ? convertFakeStoreProductDTOtoProduct(fakeStoreProductDTO) : null;
     }
 
     @Override
