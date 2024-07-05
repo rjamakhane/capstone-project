@@ -14,7 +14,6 @@ import java.util.Optional;
 
 @Service("selfProductService")
 public class SelfProductService implements ProductService{
-
     ProductRepository productRepository;
     CategoryRepository categoryRepository;
 
@@ -32,26 +31,25 @@ public class SelfProductService implements ProductService{
 
     @Override
     public List<Product> getAllProducts() {
-
         //fetch all the products from db
         return  productRepository.findAll();
     }
 
     @Override
     public Product createProduct(Product product) {
-        /*Category category = product.getCategory();
+        Category category = product.getCategory();
         if(category.getId() == null){
             category = categoryRepository.save(category);
             product.setCategory(category);
-        }*/
+        }
         return productRepository.save(product);
     }
 
     @Override
-    public Product updateProduct(Long id, Product product) {
+    public Product updateProduct(Long id, Product product) throws InvalidProductIdException {
         Optional<Product> optionalProduct = productRepository.findById(id);
         if(optionalProduct.isEmpty()){
-            throw new RuntimeException();
+            throw new InvalidProductIdException("Invalid Product Id");
         }
         Product currentProduct = optionalProduct.get();
         if(product == null) throw new RuntimeException("Invalid input");
